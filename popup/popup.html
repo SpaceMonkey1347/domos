@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title></title>
+        <link href="popup.css" rel="stylesheet">
+        <link href="tabs.css" rel="stylesheet">
+        <script src="ui.js" defer></script>
+        <script src="popup.js" defer></script>
+        <script src="tabs.js" defer></script>
+    </head>
+    <body>
+
+        <div id="rules-container">
+            <div class="replace-rule">
+                <div class="trigger-container">
+                    <span>Trigger</span>
+                    <input class="rule-input" type="text" value="">
+                </div>
+                <div class="replacement-container">
+                    <span>Replacement</span>
+                    <textarea class="rule-output" rows="2" cols=""></textarea>
+                </div>
+            </div>
+
+            <div id="add-rule-btn-container">
+                <button type="button" id="add-rule-btn">+</button>
+            </div>
+        </div>
+
+        <div id="tab-bar">
+            <button type="button" class="tab-link active-tab-link">
+                <span class="tab-link-tittle">Example</span>
+            </button>
+            <button type="button" class="tab-link clone-me">
+                <span class="tab-link-tittle">New Tab</span>
+            </button>
+            <button type="button" class="new-tab">
+                <span class="tab-link-tittle">+</span>
+            </button>
+        </div>
+        <div class="tab-action-bar">
+            <button type="button" id="delete-tab">Delete Tab</button>
+        </div>
+        <div class="tab-content-wrapper">
+            <div class="tab-content active-tab-content" data-tab-id="0">
+                <textarea rows="20" cols="60" id="raw-config">
+[
+    {
+        "command": "replace_input",
+        "urls": ["*://www.desmos.com/*"],
+        "timeout": 1000,
+        "actions": [
+            {
+                "input": "alpha",
+                "output": "\\alpha"
+            },
+            {
+                "input": "beta",
+                "output": "\\beta"
+            },
+            {
+                "event": "beforeinput",
+                "input": "epsilon",
+                "output": "\\varepsilon"
+            }
+        ]
+    },
+    {
+        "command": "replace_input",
+        "urls": ["*"],
+        "timeout": 2000,
+        "actions": [
+            {
+                "input": "thegoat",
+                "output": "Domo is the goat!"
+            }
+        ]
+    }
+]</textarea>
+            </div>
+            <div class="tab-content" data-tab-id="1">
+                <textarea rows="20" cols="60" class="config"></textarea>
+            </div>
+        </div>
+    </body>
+</html>

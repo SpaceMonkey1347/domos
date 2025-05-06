@@ -1,0 +1,68 @@
+table, th, td, caption {
+  border: 1px solid black;
+}
+
+.hidden {
+    display: none;
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+
+#tab-bar {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+}
+
+.clone-me {
+    display: none;
+}
+
+.tab-link, .new-tab {
+    font-size: 1em;
+    background-color: #f5f5f5;
+    float: left;
+    outline: none;
+    cursor: pointer;
+    padding: 10px 16px;
+}
+
+.tab-link:hover {
+    background-color: #ddd;
+}
+
+.active-tab-link {
+    background-color: #ccc;
+}
+
+.tab-tittle {
+    width: 100%;
+}
+
+.tab-content:not(.active-tab-content) {
+    display: none;
+}
+
+#raw-config {
+    resize: none;
+    padding: 0px;
+    border: 0px;
+    margin: 0px;
+    background: repeating-linear-gradient(
+    #fff,
+    #fff 15px,
+    #eee 15px,
+    #eee 30px
+    );
+    white-space: pre;
+    overflow-wrap: normal;
+    overflow-x: scroll;
+}

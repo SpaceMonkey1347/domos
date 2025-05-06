@@ -1,0 +1,38 @@
+html, body {
+    box-sizing: border-box;
+    min-width: 400px;
+}
+
+textarea {
+    resize: none;
+}
+
+.hidden {
+    display: none;
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+
+.no-pointer {
+    pointer-events: none;
+    background-color: #f0f0f0;
+}
+
+.user-rule {
+    display: flex;
+    border: 2px solid gray;
+    padding: 10px;
+}
+
+.user-rule div{
+    display: flex;
+    flex-direction: column;
+}
