@@ -1,6 +1,8 @@
 html, body {
     box-sizing: border-box;
+    margin: 0;
     min-width: 400px;
+    max-width: 500px;
 }
 
 textarea {
@@ -21,18 +23,89 @@ textarea {
                                   supported by Chrome, Edge, Opera and Firefox */
 }
 
+button, input[type="submit"], input[type="reset"] {
+	background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+}
+
 .no-pointer {
     pointer-events: none;
     background-color: #f0f0f0;
 }
 
-.user-rule {
-    display: flex;
-    border: 2px solid gray;
-    padding: 10px;
+.clone-me {
+    display: none;
 }
 
-.user-rule div{
-    display: flex;
-    flex-direction: column;
+table {
+    border-spacing: 0px 5px;
+    background-color: #2e20ee;
+    width: 100%;
+}
+
+caption {
+    background-color: rgb(19, 91, 217);
+    color: white;
+    font-size: 1.5em;
+}
+
+tr:first-child {
+    background-color: #3873cf;
+    color: white;
+}
+
+th {
+    padding: 6px 0px;
+}
+
+td {
+    padding: 6px;
+    background-color: #3873cf;
+}
+
+.drag {
+    display: inline;
+    cursor: pointer;
+}
+
+.drag > img {
+    display: block;
+    /* vertical-align: bottom; */
+    width: 100%;
+    height: 100%;
+    padding: 0px;
+    border-radius: 5px;
+}
+
+.delete-rule-btn {
+    margin: 0px;
+    padding: 0px;
+    height: 100%;
+    width: 100%;
+}
+
+.delete-rule-btn > img {
+    display: block;
+    margin: 0px;
+    padding: 0px;
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+}
+
+.delete-rule-btn > img:hover {
+    filter: hue-rotate(80deg) saturate(120%);
+}
+
+.add-rule-container {
+    align-items: center;
+}
+
+.add-rule-container > button {
+    display: inline-block;
 }

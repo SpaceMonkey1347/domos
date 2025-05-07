@@ -4,7 +4,7 @@
     }
     window.hasRun = true;
 
-    let replaceInputStrs = [
+    let replaceRules = [
         { lhs: 'foo', rhs: 'ℕ' },
         { lhs: 'foobar', rhs: 'this should not work because we already have foo!' },
         { lhs: 'est', rhs: 'There\'s an "est" in "test"' },
@@ -15,13 +15,11 @@
     init();
 
     function init() {
-        browser.storage.local.get('config').then(TODO);
+        browser.storage.local.get().then(updateReplaceRules);
 
-        browser.storage.local.onChanged.addListener(() => {
-            browser.storage.local.get('config').then(TODO)
-        });
+        browser.storage.local.onChanged.addListener(logStorageChange);
 
-        replaceInputStrs.sort((a, b) => a.lhs.length + b.lhs.length)
+        replaceRules.sort((a, b) => a.lhs.length + b.lhs.length)
         document.addEventListener('input', processInput, true);
     }
 
@@ -45,9 +43,9 @@
             preCarotText = getTextUntilCaretTextNode(event);
             replaceInputFn = replaceInputTextNode
         }
-        for (const index in replaceInputStrs) {
-            const lhs = replaceInputStrs[index].lhs
-            const rhs = replaceInputStrs[index].rhs
+        for (const index in replaceRules) {
+            const lhs = replaceRules[index].lhs
+            const rhs = replaceRules[index].rhs
             if (preCarotText.endsWith(lhs)) {
                 replaceInputFn(event, lhs, rhs);
                 return;
@@ -103,14 +101,16 @@
         return res;
     }
 
-    function TODO() {}
+    function updateReplaceRules() {}
 
     function logStorageChange(changes) {
         const changedItems = Object.keys(changes);
+        console.log('\nCHANGES\n')
         for (const item of changedItems) {
             console.log('Old value: ', changes[item].oldValue);
             console.log('New value: ', changes[item].newValue);
         }
+        browser.storage.local.get("ruleCount").then(res => {console.log('the rule count is', res)})
     }
 
 })();

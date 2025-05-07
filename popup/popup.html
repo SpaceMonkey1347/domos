@@ -8,23 +8,45 @@
         <script src="popup.js" defer></script>
     </head>
     <body>
+        <table class="replace-text-table">
+            <caption>Replace Input Commands</caption>
+            <tr>
+                <th></th>
+                <th>Typed Input</th>
+                <th>Replacement</th>
+                <th></th>
+                <th></th>
+            </tr>
+            <tr class="rule">
+                <td><div class="drag"><img class="noselect" src="../assets/drag-icon.svg" alt="Drag Me" draggable="false"></div></td>
+                <td><input class="text-input" type="text" value=""></td>
+                <td><textarea class="replacement" rows="2" cols=""></textarea></td>
+                <td><button class="delete-rule-btn" type="button"><img src="../assets/close-button.svg" alt="Close" draggable="false"></button></td>
+            </tr>
+            <tr class="rule">
+                <td><div class="drag"><img class="noselect" src="../assets/drag-icon.svg" alt="Drag Me" draggable="false"></div></td>
+                <td><input class="text-input" type="text" value=""></td>
+                <td><textarea class="replacement" rows="2" cols=""></textarea></td>
+                <td><button class="delete-rule-btn" type="button"><img src="../assets/close-button.svg" alt="Close" draggable="false"></button></td>
+            </tr>
+            <tr class="rule">
+                <td><div class="drag"><img class="noselect" src="../assets/drag-icon.svg" alt="Drag Me" draggable="false"></div></td>
+                <td><input class="text-input" type="text" value=""></td>
+                <td><textarea class="replacement" rows="2" cols=""></textarea></td>
+                <td><button class="delete-rule-btn" type="button"><img src="../assets/close-button.svg" alt="Close" draggable="false"></button></td>
+            </tr>
+            <tr class="rule clone-me">
+                <td><div class="drag"><img class="noselect" src="../assets/drag-icon.svg" alt="Drag Me" draggable="false"></div></td>
+                <td><input class="text-input" type="text" value=""></td>
+                <td><textarea class="replacement" rows="2" cols=""></textarea></td>
+                <td><button class="delete-rule-btn" type="button"><img src="../assets/close-button.svg" alt="Close" draggable="false"></button></td>
+            </tr>
+            <tr>
+                <td colspan="100%" align="center"><button class="add-row-btn" type="button"><img src="../assets/add-button.svg" alt=""></button></td>
+            </tr>
+        </table>
+        <div id="options">
 
-        <div id="rules-container">
-            <div class="replace-rule">
-                <div class="trigger-container">
-                    <span>Trigger</span>
-                    <input class="rule-input" type="text" value="">
-                </div>
-                <div class="replacement-container">
-                    <span>Replacement</span>
-                    <textarea class="rule-output" rows="2" cols=""></textarea>
-                </div>
-            </div>
-
-            <div id="add-rule-btn-container">
-                <button type="button" id="add-rule-btn">+</button>
-            </div>
         </div>
-
     </body>
 </html>

@@ -4,9 +4,9 @@
   "version": "1.0.0",
   "description": "",
   "icons": {
-    "64": "icons/domos_icon.svg",
-    "48": "icons/domos_icon.svg",
-    "32": "icons/domos_icon.svg"
+    "64": "assets/domos_icon.svg",
+    "48": "assets/domos_icon.svg",
+    "32": "assets/domos_icon.svg"
   },
 
   "action": {
@@ -18,7 +18,7 @@
     {
       "exclude_matches": ["*://developer.mozilla.org/*"],
       "matches": ["<all_urls>"],
-      "js": ["content_scripts/content.js"]
+      "js": ["content_scripts/replace_input.js"]
     }
   ],
 
