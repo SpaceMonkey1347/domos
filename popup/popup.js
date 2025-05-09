@@ -1,5 +1,3 @@
-// browser.storage.local.get("config").then(init)
-
 const table = document.querySelector('table');
 const tbody = document.querySelector('tbody');
 const deleteRuleBtns = document.querySelectorAll('.delete-rule-btn');
@@ -11,19 +9,33 @@ deleteRuleBtns.forEach(btn => {
     btn.onclick = deleteRow;
 })
 
-addRowBtn.onclick = createRow;
+addRowBtn.onclick = () => { createRow() };
 
 tbody.addEventListener('input', updateLocalStorage)
 
-function deleteRow(event) {
-    event.target.parentElement.parentElement.parentElement.remove();
+browser.storage.local.get().then(spawnRows)
+
+function spawnRows(storage) {
+    let ruleCount = storage.ruleCount;
+    for (let i = 1; i <= ruleCount; i++) {
+        let rule = storage[`replaceRule${i}`];
+        createRow(rule.lhs, rule.rhs);
+    }
 }
 
-function createRow() {
+function deleteRow(event) {
+    event.target.parentElement.parentElement.parentElement.remove();
+    updateLocalStorage();
+}
+
+function createRow(lhs = '', rhs = '') {
     const row = rowClone.cloneNode(true);
     row.classList.remove('clone-me');
     tbody.insertBefore(row, rowClone);
     row.querySelector('.delete-rule-btn').onclick = deleteRow;
+    row.querySelector('.text-input').value = lhs;
+    row.querySelector('.replacement').value = rhs;
+    updateLocalStorage();
 }
 
 function updateLocalStorage() {
@@ -43,11 +55,5 @@ function updateLocalStorage() {
         }
     })
     rules.ruleCount = ruleCount;
-        
-    for (const key in rules) {
-        const value = rules[key]
-        browser.storage.local.set({ [key]: value });
-    }
-    browser.storage.local.set({ ruleCount: ruleCount });
-    browser.storage.local.get().then(console.log)
+    browser.storage.local.set({ ...rules })
 }

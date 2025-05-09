@@ -5,19 +5,17 @@
     window.hasRun = true;
 
     let replaceRules = [
-        { lhs: 'foo', rhs: 'ℕ' },
-        { lhs: 'foobar', rhs: 'this should not work because we already have foo!' },
-        { lhs: 'est', rhs: 'There\'s an "est" in "test"' },
-        { lhs: 'test', rhs: 'This is a test!' },
-        { lhs: 'mult', rhs: 'multi\nline test' },
+        { lhs: 'Is domos working?', rhs: 'No user-defined rules have been set!' },
     ];
+
+    let ruleCount = 1;
 
     init();
 
     function init() {
-        browser.storage.local.get().then(updateReplaceRules);
+        browser.storage.local.get().then(initReplaceRules);
 
-        browser.storage.local.onChanged.addListener(logStorageChange);
+        browser.storage.local.onChanged.addListener(updateReplaceRules);
 
         replaceRules.sort((a, b) => a.lhs.length + b.lhs.length)
         document.addEventListener('input', processInput, true);
@@ -43,7 +41,7 @@
             preCarotText = getTextUntilCaretTextNode(event);
             replaceInputFn = replaceInputTextNode
         }
-        for (const index in replaceRules) {
+        for (let index = 1; index <= ruleCount; index++) {
             const lhs = replaceRules[index].lhs
             const rhs = replaceRules[index].rhs
             if (preCarotText.endsWith(lhs)) {
@@ -101,16 +99,27 @@
         return res;
     }
 
-    function updateReplaceRules() {}
-
-    function logStorageChange(changes) {
-        const changedItems = Object.keys(changes);
-        console.log('\nCHANGES\n')
-        for (const item of changedItems) {
-            console.log('Old value: ', changes[item].oldValue);
-            console.log('New value: ', changes[item].newValue);
+    function initReplaceRules(storage) {
+        if (storage.ruleCount) {
+            ruleCount = storage.ruleCount;
         }
-        browser.storage.local.get("ruleCount").then(res => {console.log('the rule count is', res)})
+        replaceRules = [];
+        for (let i = 1; i <= ruleCount; i++) {
+            let currRule = `replaceRule${i}`; 
+            if (storage[currRule]) {
+                replaceRules.push(storage[currRule]);
+            }
+        }
+    }
+
+    function updateReplaceRules(changes) {
+        if (changes.ruleCount) {
+            ruleCount = changes.ruleCount.newValue;
+        }
+        replaceRules = [];
+        for (let i = 1; i <= ruleCount; i++) {
+            replaceRules.push(changes[`replaceRule${i}`].newValue);
+        }
     }
 
 })();
