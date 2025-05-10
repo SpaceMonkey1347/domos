@@ -18,7 +18,7 @@
     {
       "exclude_matches": ["*://developer.mozilla.org/*"],
       "matches": ["<all_urls>"],
-      "js": ["content_scripts/replace_input.js"]
+      "js": ["browser-polyfill.js", "content_scripts/replace_input.js"]
     }
   ],
 

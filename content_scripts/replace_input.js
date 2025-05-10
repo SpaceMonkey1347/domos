@@ -15,7 +15,6 @@
 
         browser.storage.local.onChanged.addListener(updateReplaceRules);
 
-        replaceRules.sort((a, b) => a.lhs.length + b.lhs.length)
         document.addEventListener('input', processInput, true);
     }
 
@@ -108,6 +107,7 @@
                 replaceRules.push(storage[currRule]);
             }
         }
+        replaceRules.sort((a, b) => b.lhs.length - a.lhs.length);
     }
 
     function updateReplaceRules(changes) {
@@ -116,8 +116,14 @@
         }
         replaceRules = [];
         for (let i = 1; i <= ruleCount; i++) {
-            replaceRules.push(changes[`replaceRule${i}`].newValue);
+            let currRule = `replaceRule${i}`;
+            if (changes[currRule].newValue) {
+                replaceRules.push(changes[currRule].newValue);
+            } else {
+                replaceRules.push(changes[currRule]);
+            }
         }
+        replaceRules.sort((a, b) => b.lhs.length - a.lhs.length);
     }
 
 })();
