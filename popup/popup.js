@@ -6,10 +6,15 @@ const addRowBtn = document.querySelector('.add-row-btn');
 const rowClone = table.querySelector('.clone-me');
 
 deleteRuleBtns.forEach(btn => {
-    btn.onclick = deleteRow;
-})
+    btn.onclick = (event) => {
+        deleteRow(event);
+        updateLocalStorage();
+}})
 
-addRowBtn.onclick = () => { createRow() };
+addRowBtn.onclick = () => {
+    createRow();
+    updateLocalStorage();
+};
 
 tbody.addEventListener('input', updateLocalStorage)
 
@@ -25,7 +30,6 @@ function spawnRows(storage) {
 
 function deleteRow(event) {
     event.target.parentElement.parentElement.parentElement.remove();
-    updateLocalStorage();
 }
 
 function createRow(lhs = '', rhs = '') {
@@ -35,7 +39,6 @@ function createRow(lhs = '', rhs = '') {
     row.querySelector('.delete-rule-btn').onclick = deleteRow;
     row.querySelector('.text-input').value = lhs;
     row.querySelector('.replacement').value = rhs;
-    updateLocalStorage();
 }
 
 function updateLocalStorage() {
@@ -55,5 +58,5 @@ function updateLocalStorage() {
         }
     })
     rules.ruleCount = ruleCount;
-    browser.storage.local.set({ ...rules })
+    browser.storage.local.set({ ...rules });
 }

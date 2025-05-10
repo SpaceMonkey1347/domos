@@ -4,9 +4,9 @@
   "version": "1.0.0",
   "description": "",
   "icons": {
-    "64": "assets/domos_icon.svg",
-    "48": "assets/domos_icon.svg",
-    "32": "assets/domos_icon.svg"
+    "64": "assets/domos_icon_64.png",
+    "48": "assets/domos_icon_48.png",
+    "32": "assets/domos_icon_32.png"
   },
 
   "action": {

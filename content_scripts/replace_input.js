@@ -4,11 +4,9 @@
     }
     window.hasRun = true;
 
-    let replaceRules = [
-        { lhs: 'Is domos working?', rhs: 'No user-defined rules have been set!' },
-    ];
+    let replaceRules = [];
 
-    let ruleCount = 1;
+    let ruleCount = 0;
 
     init();
 
@@ -41,7 +39,7 @@
             preCarotText = getTextUntilCaretTextNode(event);
             replaceInputFn = replaceInputTextNode
         }
-        for (let index = 1; index <= ruleCount; index++) {
+        for (let index = 0; index < ruleCount; index++) {
             const lhs = replaceRules[index].lhs
             const rhs = replaceRules[index].rhs
             if (preCarotText.endsWith(lhs)) {
