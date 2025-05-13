@@ -1,98 +1,392 @@
+/* Éviter les transitions pendant le chargement initial pour empêcher le flash blanc */
+html.preload,
+html.preload * {
+    transition: none !important;
+}
+
+/* Base styles */
+:root {
+    /* Light theme variables */
+    --bg-color: #f9fafb;
+    --container-bg: #ffffff;
+    --header-bg: #4F46E5;
+    --header-text: #ffffff;
+    --text-color: #1f2937;
+    --table-header-bg: #f3f4f6;
+    --table-header-text: #374151;
+    --border-color: #e5e7eb;
+    --row-hover-bg: #f9fafb;
+    --input-border: #d1d5db;
+    --input-bg: #ffffff;
+    --button-bg: #4F46E5;
+    --button-hover: #4338ca;
+    --button-text: #ffffff;
+    --delete-hover-bg: #fee2e2;
+    --empty-state-text: #6b7280;
+    --focus-shadow: rgba(79, 70, 229, 0.25);
+}
+
+body.dark-theme {
+    /* Dark theme variables */
+    --bg-color: #111827;
+    --container-bg: #1f2937;
+    --header-bg: #4338ca;
+    --header-text: #ffffff;
+    --text-color: #f3f4f6;
+    --table-header-bg: #374151;
+    --table-header-text: #e5e7eb;
+    --border-color: #4b5563;
+    --row-hover-bg: #2d3748;
+    --input-border: #6b7280;
+    --input-bg: #374151;
+    --button-bg: #6366f1;
+    --button-hover: #4f46e5;
+    --button-text: #ffffff;
+    --delete-hover-bg: #7f1d1d;
+    --empty-state-text: #d1d5db;
+    --focus-shadow: rgba(99, 102, 241, 0.25);
+}
+
 html, body {
     box-sizing: border-box;
     margin: 0;
-    min-width: 400px;
-    max-width: 500px;
+    min-width: 500px;
+    max-width: 550px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-textarea {
-    resize: none;
+*, *::before, *::after {
+    box-sizing: inherit;
 }
 
 .hidden {
-    display: none;
+    display: none !important;
 }
 
-.noselect {
-  -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */
-     -khtml-user-select: none; /* Konqueror HTML */
-       -moz-user-select: none; /* Old versions of Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
-            user-select: none; /* Non-prefixed version, currently
-                                  supported by Chrome, Edge, Opera and Firefox */
-}
-
-button, input[type="submit"], input[type="reset"] {
-	background: none;
-	color: inherit;
-	border: none;
-	padding: 0;
-	font: inherit;
-	cursor: pointer;
-	outline: inherit;
-}
-
-.no-pointer {
-    pointer-events: none;
-    background-color: #f0f0f0;
-}
-
-.clone-me {
-    display: none;
-}
-
-table {
-    border-spacing: 0px 5px;
-    background-color: #2e20ee;
+/* Container */
+.container {
     width: 100%;
+    max-width: 550px;
+    margin: 0 auto;
+    padding: 16px;
+    background-color: var(--container-bg);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
 }
 
-caption {
-    background-color: rgb(19, 91, 217);
-    color: white;
-    font-size: 1.5em;
+/* Header */
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--header-bg);
+    color: var(--header-text);
+    padding: 12px 16px;
+    border-radius: 6px 6px 0 0;
+    margin-bottom: 16px;
+    transition: background-color 0.3s ease;
 }
 
-tr:first-child {
-    background-color: #3873cf;
-    color: white;
+.app-header h1 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 700;
 }
 
-th {
-    padding: 6px 0px;
+.header-buttons {
+    display: flex;
+    gap: 8px;
 }
 
-td {
-    padding: 6px;
-    background-color: #3873cf;
-}
-
-.move-row {
-    display: inline;
+.icon-button {
+    background: none;
+    border: none;
     cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease;
 }
 
-.drag > img {
-    cursor: pointer;
+.icon-button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
-.delete-rule-btn {
-    display: inline;
-    margin: 0px;
-    padding: 0px;
-    height: 100%;
-    width: 100%;
+.icon {
+    width: 20px;
+    height: 20px;
 }
 
-.delete-rule-btn > img:hover {
-    filter: hue-rotate(80deg) saturate(120%);
+.icon-add {
+    width: 20px;
+    height: 20px;
+    filter: invert(1);
+    margin-right: 8px;
 }
 
-.add-rule-container {
+/* Rules table */
+.rules-table {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    transition: border-color 0.3s ease;
+}
+
+.table-header {
+    display: grid;
+    grid-template-columns: 40px 1fr 1.5fr 40px;
+    gap: 8px;
+    background-color: var(--table-header-bg);
+    font-weight: 600;
+    color: var(--table-header-text);
+    border-bottom: 1px solid var(--border-color);
+    padding: 12px 8px;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.column-drag {
+    display: flex;
+    justify-content: center;
     align-items: center;
 }
 
-.add-rule-container > button {
-    display: inline-block;
+.column-input, .column-replacement {
+    padding: 0 8px;
+}
+
+.column-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Rule row */
+.rule {
+    display: grid;
+    grid-template-columns: 40px 1fr 1.5fr 40px;
+    gap: 8px;
+    padding: 8px;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    transition: background-color 0.2s ease, transform 0.2s ease, opacity 0.2s ease, border-color 0.3s ease;
+}
+
+.rule:hover {
+    background-color: var(--row-hover-bg);
+}
+
+.rule:last-child {
+    border-bottom: none;
+}
+
+.cell-drag {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.drag {
+    cursor: grab;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 4px;
+}
+
+.drag:active {
+    cursor: grabbing;
+}
+
+.noselect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Form elements */
+.cell-input, .cell-replacement {
+    padding: 0 4px;
+}
+
+.text-input, .replacement {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid var(--input-border);
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 14px;
+    background-color: var(--input-bg);
+    color: var(--text-color);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease, color 0.3s ease;
+}
+
+.text-input:focus, .replacement:focus {
+    outline: none;
+    border-color: var(--button-bg);
+    box-shadow: 0 0 0 3px var(--focus-shadow);
+}
+
+.text-input::placeholder, .replacement::placeholder {
+    color: var(--empty-state-text);
+    opacity: 0.7;
+}
+
+.replacement {
+    resize: none;
+    min-height: 60px;
+    transition: min-height 0.2s ease;
+}
+
+.replacement:focus {
+    min-height: 80px;
+}
+
+/* Delete button */
+.cell-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.delete-rule-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease;
+}
+
+.delete-rule-btn:hover {
+    background-color: var(--delete-hover-bg);
+}
+
+.delete-rule-btn:hover img {
+    filter: invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg) brightness(104%) contrast(97%);
+    transform: scale(1.1);
+    transition: transform 0.2s ease;
+}
+
+/* Add button */
+.add-button-container {
+    display: flex;
+    justify-content: center;
+    margin: 16px 0 8px;
+}
+
+.add-row-btn {
+    background-color: var(--button-bg);
+    color: var(--button-text);
+    border: none;
+    border-radius: 9999px;
+    padding: 8px 16px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.add-row-btn:hover {
+    background-color: var(--button-hover);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.add-row-btn img {
+    transition: transform 0.2s ease;
+}
+
+.add-row-btn:hover img {
+    transform: rotate(90deg);
+}
+
+/* Options container */
+.options-container {
+    margin-top: 16px;
+}
+
+/* Empty state */
+.empty-state {
+    padding: 32px 16px;
+    text-align: center;
+    color: var(--empty-state-text);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.3s ease;
+}
+
+.empty-state p {
+    margin: 0 0 16px;
+}
+
+.empty-state p:last-child {
+    margin-bottom: 0;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from { transform: translateY(-10px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes highlightSuccess {
+    0% { background-color: rgba(72, 187, 120, 0.2); }
+    100% { background-color: transparent; }
+}
+
+.fade-in {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.slide-in {
+    animation: slideIn 0.3s ease-in-out;
+}
+
+.highlight-success {
+    animation: highlightSuccess 2s ease;
+}
+
+/* Focus states for accessibility */
+button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.3);
+}
+
+/* Error state for inputs */
+.has-error {
+    border-color: #ef4444 !important;
+}
+
+.has-error:focus {
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.3);
+}
+
+/* Rule being dragged */
+.rule.dragging {
+    background-color: #eff6ff;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    opacity: 0.9;
+    z-index: 10;
 }

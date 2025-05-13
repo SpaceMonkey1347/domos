@@ -1,35 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title></title>
-        <link href="popup.css" rel="stylesheet">
-        <script src="popup.js" defer></script>
-        <script type="application/javascript" src="../browser-polyfill.js"></script>
-    </head>
-    <body>
-        <table class="replace-text-table">
-            <caption>Replace Input Commands</caption>
-            <tr>
-                <th></th>
-                <th>Typed Input</th>
-                <th>Replacement</th>
-                <th></th>
-                <th></th>
-            </tr>
-            <tr class="rule clone-me">
-                <td><div class="drag"><img class="noselect" src="../assets/drag-icon.svg" alt="Drag Me" draggable="false"></div></td>
-                <td><input class="text-input" type="text" value=""></td>
-                <td><textarea class="replacement" rows="2" cols=""></textarea></td>
-                <td><button class="delete-rule-btn" type="button"><img src="../assets/close-button.svg" alt="Close" draggable="false"></button></td>
-            </tr>
-            <tr>
-                <td colspan="100%" align="center"><button class="add-row-btn" type="button"><img src="../assets/add-button.svg" alt=""></button></td>
-            </tr>
-        </table>
-        <div id="options">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Domos</title>
+    <link href="popup.css" rel="stylesheet">
+    <!-- Script pour éviter le flash de thème blanc -->
+    <script src="preload.js"></script>
+    <script src="popup.js" defer></script>
+    <script type="application/javascript" src="../browser-polyfill.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header class="app-header">
+            <h1>Replace Input Commands</h1>
+            <div class="header-buttons">
+                <button id="theme-toggle" class="icon-button" title="Toggle Dark Mode" type="button">
+                    <img src="../assets/theme-toggle.svg" alt="Toggle Dark Mode" class="icon" draggable="false">
+                </button>
+            </div>
+        </header>
 
+        <div class="rules-table">
+            <!-- Table Headers -->
+            <div class="table-header">
+                <div class="column-drag"></div>
+                <div class="column-input">Typed Input</div>
+                <div class="column-replacement">Replacement</div>
+                <div class="column-actions"></div>
+            </div>
+
+            <!-- Template row (hidden) -->
+            <div class="rule template-row hidden">
+                <div class="cell-drag">
+                    <div class="drag">
+                        <img class="noselect icon" src="../assets/drag-icon.svg" alt="Drag" draggable="false">
+                    </div>
+                </div>
+                <div class="cell-input">
+                    <input class="text-input" type="text" value="" placeholder="Type text to replace...">
+                </div>
+                <div class="cell-replacement">
+                    <textarea class="replacement" rows="2" placeholder="Replacement text..."></textarea>
+                </div>
+                <div class="cell-actions">
+                    <button class="delete-rule-btn" type="button">
+                        <img src="../assets/close-button.svg" alt="Delete" class="icon" draggable="false">
+                    </button>
+                </div>
+            </div>
+
+            <!-- Rules container -->
+            <div id="rules-container">
+                <!-- Dynamic rules will be inserted here by JavaScript -->
+            </div>
         </div>
-    </body>
+
+        <!-- Add new rule button -->
+        <div class="add-button-container">
+            <button class="add-row-btn" type="button">
+                <img src="../assets/add-button.svg" alt="" class="icon-add">
+                <span>Add New Rule</span>
+            </button>
+        </div>
+
+        <div id="options" class="options-container">
+            <!-- Future options will go here -->
+        </div>
+
+        <!-- Empty state message -->
+        <div id="empty-state" class="empty-state hidden">
+            <p>No replacement rules added yet.</p>
+            <p>Click the "Add New Rule" button to create your first rule.</p>
+        </div>
+    </div>
+</body>
 </html>
