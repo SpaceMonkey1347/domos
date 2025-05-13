@@ -75,12 +75,6 @@ td {
 
 .drag > img {
     cursor: pointer;
-    /* display: block; */
-    /* vertical-align: bottom; */
-    /* width: 100%; */
-    /* height: 100%; */
-    /* padding: 0px; */
-    /* border-radius: 5px; */
 }
 
 .delete-rule-btn {
@@ -89,15 +83,6 @@ td {
     padding: 0px;
     height: 100%;
     width: 100%;
-}
-
-.delete-rule-btn > img {
-    /* display: block; */
-    /* margin: 0px; */
-    /* padding: 0px; */
-    /* width: 100%; */
-    /* height: 100%; */
-    /* border-radius: 5px; */
 }
 
 .delete-rule-btn > img:hover {

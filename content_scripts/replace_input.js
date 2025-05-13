@@ -21,7 +21,6 @@
     function processInput(event) {
         const allowedInputTypes = [
             'insertText',
-            'insertLineBreak',
         ]
 
         if (!allowedInputTypes.includes(event.inputType)) {

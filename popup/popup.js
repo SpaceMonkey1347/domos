@@ -24,7 +24,11 @@ function initRows(storage) {
 }
 
 function deleteRow(event) {
-    event.target.parentElement.parentElement.parentElement.remove();
+    let currTarget = event.target;
+    while (currTarget.tagName != "TR") {
+        currTarget = currTarget.parentElement;
+    }
+    currTarget.remove();
     updateLocalStorage();
 }
 
