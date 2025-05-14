@@ -1,4 +1,5 @@
 {
+
   "manifest_version": 3,
   "name": "Domos",
   "version": "1.0.0",
@@ -22,7 +23,19 @@
     }
   ],
 
+  "background": {
+      "scripts": ["background/background.js"]
+  },
+
+  "browser_specific_settings": {
+      "gecko": {
+          "id": "domos@example.org"
+      }
+  },
+
   "permissions": [
-      "storage"
+      "storage",
+      "nativeMessaging"
   ]
+
 }

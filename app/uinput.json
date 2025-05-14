@@ -1,0 +1,7 @@
+{
+  "name": "uinput",
+  "description": "Press keys on a virtual keyboard",
+  "path": "/home/squid/workspace/browser_extensions/workbench/domos/app/uinput.py",
+  "type": "stdio",
+  "allowed_extensions": [ "domos@example.org" ]
+}
