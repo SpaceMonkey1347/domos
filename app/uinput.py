@@ -1,21 +1,8 @@
+#!/usr/bin/env python3
+
 import sys
 import json
 import struct
-
-# from pynput.keyboard import Key, Controller
-#
-# keyboard = Controller()
-#
-#
-# def pressKey(userKey):
-#     key = getattr(Key, userKey)
-#     keyboard.press(key)
-#     keyboard.release(key)
-
-
-# def pressKeys(userKeys):
-#     pass
-
 
 # Read a message from stdin and decode it.
 def getMessage():
@@ -52,12 +39,3 @@ while True:
     if receivedMessage == "ping":
         print("message recieved")
         sendMessage(encodeMessage("pong"))
-    # elif receivedMessage.startswith("Key."):
-    #     pressKey(receivedMessage[4:])
-    #     sendMessage(encodeMessage("done pressing"))
-    # elif receivedMessage.startswith("Keys."):
-    #     pressKeys(receivedMessage[5:])
-
-
-
-
