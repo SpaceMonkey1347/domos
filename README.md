@@ -12,5 +12,6 @@ To install, make sure you're in the app directory before you run ./setup.bash
 
 ```bash
 cd app/
+pip install -r requirements.txt
 ./setup.bash
 ```
