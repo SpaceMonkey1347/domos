@@ -22,4 +22,9 @@ else
     echo "requirements.txt not found. Skipping package installation."
 fi
 
-python uinput.py
+chmod +x ./uinput.py
+chmod +x ./uinput.bash
+
+echo "Updating /lib/mozilla/native-messaging-hosts/uinput.json"
+jq --arg newpath "$(pwd)/uinput.py" '.path = $newpath' uinput.json > uinput_tmp.json && mv uinput_tmp.json uinput.json
+sudo mkdir -p /lib/mozilla/native-messaging-hosts && sudo cp uinput.json /lib/mozilla/native-messaging-hosts/

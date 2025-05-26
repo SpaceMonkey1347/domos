@@ -3,6 +3,92 @@
 import sys
 import json
 import struct
+from time import sleep
+
+import pyperclip
+from pynput.keyboard import Key, Controller
+
+keyboard = Controller()
+
+
+def tapKey(keyName):
+    if hasattr(Key, keyName):
+        keyName = getattr(Key, keyName)
+    keyboard.press(keyName)
+    keyboard.release(keyName)
+
+
+def tapBackspace(count):
+    for i in range(count):
+        keyboard.press(Key.backspace)
+        keyboard.release(Key.backspace)
+
+
+def typeContent(text: str):
+    printable_keys = set(
+        "abcdefghijklmnopqrstuvwxyz"
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        "0123456789"
+        "`~!@#$%^&*()-_=+[{]}\\|;:'\",<.>/? "
+    )
+    for char in text:
+        if char in printable_keys:
+            keyboard.press(char)
+            keyboard.release(char)
+        else:
+            hexcode = f'{ord(char):X}'
+            # sendEncodedMessage(hexcode)
+            type_unicode_linux(hexcode)
+
+
+
+def typeUnicode(text):
+    # Copy text to clipboard
+    pyperclip.copy(text)
+    sleep(0.1)  # Wait for clipboard to update
+
+    # Paste the text
+    with keyboard.pressed(Key.ctrl):
+        keyboard.press('v')
+        keyboard.release('v')
+
+    sleep(0.1)
+
+
+def type_unicode_linux(hexcode: str):
+    """
+    Types a unicode character using Ctrl+Shift+u + hex code + Enter (Linux)
+    """
+    with keyboard.pressed(Key.ctrl):
+        with keyboard.pressed(Key.shift):
+            with keyboard.pressed('u'):
+                sleep(0.1)
+                for char in hexcode:
+                    keyboard.press(char)
+                    keyboard.release(char)
+                    sleep(0.05)
+
+
+# # Example: U+2764 (❤️ heart)
+# type_unicode_linux("2764")
+
+
+def type_alt_numpad(code: str):
+    """
+    Windows Alt+Numpad entry for extended ASCII characters (like Alt+0169 for ©)
+    Must be entered using the numeric keypad.
+    """
+    keyboard.press(Key.alt_l)
+    for digit in code:
+        keyboard.press(digit)
+        keyboard.release(digit)
+        sleep(0.05)
+    keyboard.release(Key.alt_l)
+
+
+# # Example: Alt+0169 = ©
+# type_alt_numpad('0169')
+
 
 # Read a message from stdin and decode it.
 def getMessage():
@@ -33,9 +119,28 @@ def sendMessage(encodedMessage):
     sys.stdout.buffer.flush()
 
 
-while True:
-    receivedMessage = getMessage()
-    print(receivedMessage)
-    if receivedMessage == "ping":
-        print("message recieved")
-        sendMessage(encodeMessage("pong"))
+def sendEncodedMessage(messageContent):
+    return sendMessage(encodeMessage(messageContent))
+
+
+def listenForMessages():
+    while True:
+        receivedMessage = getMessage()
+        if receivedMessage.startswith('tap.'):
+            key = receivedMessage[4:]
+            sendEncodedMessage('pressing: ' + key)
+            tapKey(key)
+        elif receivedMessage.startswith('backspace.'):
+            count = receivedMessage[10:]
+            sendEncodedMessage('Tapping backspace ' + count + ' times')
+            tapBackspace(int(count))
+        elif receivedMessage.startswith('content.'):
+            text = receivedMessage[8:]
+            typeContent(text)
+        elif receivedMessage.startswith('unicode.'):
+            key = receivedMessage[8:]
+            sendEncodedMessage('Unicode: ' + key)
+            type_unicode_linux(key)
+
+
+listenForMessages()

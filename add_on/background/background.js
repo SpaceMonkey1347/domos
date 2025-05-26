@@ -7,7 +7,7 @@ let port = browser.runtime.connectNative("uinput");
 Listen for messages from the app and log them to the console.
 */
 port.onMessage.addListener((response) => {
-    console.log("Received: " + response);
+    console.log("Received:", response);
 });
 
 /*
@@ -26,6 +26,63 @@ port.onDisconnect.addListener((port) => {
 });
 
 /*
-When the extension's action icon is clicked, send the app a message.
+send the app a message.
 */
-port.postMessage("ping");
+
+
+function sendMessage(message) {
+    port.postMessage(message);
+}
+
+function tapKey(key) {
+    port.postMessage('tap.' + key);
+}
+
+function tapBackspace(count) {
+    port.postMessage('backspace.' + count);
+}
+
+function typeContent(text) {
+    port.postMessage('content.' + text);
+}
+
+function getUnicodeCodes(char) {
+    const codePoint = char.codePointAt(0);
+
+    // Linux uses hex (Ctrl+Shift+u + HEX)
+    const linuxHex = codePoint.toString(16);
+
+    // Windows uses decimal (Alt + DECIMAL), but only works for <= 255 or 0xFFFF in some cases
+    const windowsDecimal = codePoint.toString(10);
+
+    console.log(`Character: ${char}`);
+    console.log(`Unicode Code Point: U+${codePoint.toString(16).toUpperCase()}`);
+    console.log(`Linux Input (Ctrl+Shift+u): ${linuxHex}`);
+    console.log(`Windows Input (Alt+Numpad): ${windowsDecimal}`);
+}
+
+// getUnicodeCodes("©");     // Alt+0169
+// getUnicodeCodes("❤");     // Not supported in Windows Alt+Numpad
+// getUnicodeCodes("€");     // Alt+0128
+// getUnicodeCodes("あ");     // Not supported in Windows Alt+Numpad
+// getUnicodeCodes("😀");    // Not supported in Windows Alt+Numpad
+
+
+// setTimeout(() => {
+//     // sendMessage('unicode.睷')
+//     sendMessage('unicode.2764')
+// }, 3000);
+
+
+browser.runtime.onMessage.addListener((message) => {
+    if (message.command === "pressKey") {
+        tapKey(message.content)
+    }
+    if (message.command === 'backspace') {
+        tapBackspace(message.count);
+    }
+    if (message.command === "typeContent") {
+        let content = message.content
+        typeContent(content);
+    }
+});

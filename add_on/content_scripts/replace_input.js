@@ -8,6 +8,8 @@
 
     let ruleCount = 0;
 
+    let inputBuffer = '';
+
     init();
 
     function init() {
@@ -18,33 +20,66 @@
         document.addEventListener('input', processInput, true);
     }
 
+    // function processInput(event) {
+    //     const allowedInputTypes = [
+    //         'insertText',
+    //     ]
+    //
+    //     if (!allowedInputTypes.includes(event.inputType)) {
+    //         return;
+    //     }
+    //
+    //     let preCarotText;
+    //     let replaceInputFn;
+    //     const tagName = event.target.tagName;
+    //     if (tagName === 'TEXTAREA' || tagName === 'INPUT') {
+    //         preCarotText = getTextUntilCaretValue(event);
+    //         replaceInputFn = replaceInputValue
+    //     } else {
+    //         preCarotText = getTextUntilCaretTextNode(event);
+    //         replaceInputFn = replaceInputTextNode
+    //     }
+    //     for (let index = 0; index < ruleCount; index++) {
+    //         const lhs = replaceRules[index].lhs
+    //         const rhs = replaceRules[index].rhs
+    //         if (preCarotText.endsWith(lhs)) {
+    //             replaceInputFn(event, lhs, rhs);
+    //             return;
+    //         }
+    //     }
+    // }
+
     function processInput(event) {
         const allowedInputTypes = [
             'insertText',
         ]
 
         if (!allowedInputTypes.includes(event.inputType)) {
+            inputBuffer = '';
             return;
         }
+        inputBuffer += event.data;
 
-        let preCarotText;
-        let replaceInputFn;
-        const tagName = event.target.tagName;
-        if (tagName === 'TEXTAREA' || tagName === 'INPUT') {
-            preCarotText = getTextUntilCaretValue(event);
-            replaceInputFn = replaceInputValue
-        } else {
-            preCarotText = getTextUntilCaretTextNode(event);
-            replaceInputFn = replaceInputTextNode
-        }
         for (let index = 0; index < ruleCount; index++) {
-            const lhs = replaceRules[index].lhs
-            const rhs = replaceRules[index].rhs
-            if (preCarotText.endsWith(lhs)) {
-                replaceInputFn(event, lhs, rhs);
-                return;
+            const lhs = replaceRules[index].lhs;
+            const rhs = replaceRules[index].rhs;
+            if (lhs !== '' && inputBuffer.endsWith(lhs)) {
+                replaceInputUinput(lhs, rhs);
             }
         }
+    }
+
+    function replaceInputUinput(lhs, rhs) {
+        const backspaceCount = lhs.length;
+        browser.runtime.sendMessage({
+            command: "backspace",
+            count: backspaceCount,
+        }).then(
+            browser.runtime.sendMessage({
+                command: "typeContent",
+                content: rhs,
+            })
+        ).then(() => { inputBuffer = '' })
     }
 
     function replaceInputValue(event, lhs, rhs) {
