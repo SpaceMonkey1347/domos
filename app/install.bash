@@ -62,7 +62,7 @@ case "$browser_opt" in
                 ;;
             2)
                 echo "Installing user-specific: $CHROME_LOCAL_DIR/com.example.uinput.json"
-                mkdir -p $CHROME_LOCAL_DIR && sudo cp $SCRIPT_DIR/com.example.uinput.json $CHROME_LOCAL_DIR
+                mkdir -p $CHROME_LOCAL_DIR && cp $SCRIPT_DIR/com.example.uinput.json $CHROME_LOCAL_DIR
                 ;;
             *)
                 echo "Invalid manifest directory choice. Exiting."
@@ -82,7 +82,7 @@ case "$browser_opt" in
                 ;;
             2)
                 echo "Installing user-specific: $FIREFOX_LOCAL_DIR/uinput.json"
-                mkdir -p $FIREFOX_LOCAL_DIR && sudo cp $SCRIPT_DIR/uinput.json $FIREFOX_LOCAL_DIR
+                mkdir -p $FIREFOX_LOCAL_DIR && cp $SCRIPT_DIR/uinput.json $FIREFOX_LOCAL_DIR
                 ;;
             *)
                 echo "Invalid manifest directory choice. Exiting."
