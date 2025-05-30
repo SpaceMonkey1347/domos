@@ -5,7 +5,6 @@ import json
 import struct
 from time import sleep
 
-import pyperclip
 from pynput.keyboard import Key, Controller
 
 keyboard = Controller()
@@ -39,20 +38,6 @@ def typeText(text: str):
             hexcode = f'{ord(char):X}'
             # sendEncodedMessage(hexcode)
             typeUnicodeLinux(hexcode)
-
-
-
-def typeUnicode(text):
-    # Copy text to clipboard
-    pyperclip.copy(text)
-    sleep(0.1)  # Wait for clipboard to update
-
-    # Paste the text
-    with keyboard.pressed(Key.ctrl):
-        keyboard.press('v')
-        keyboard.release('v')
-
-    sleep(0.1)
 
 
 def typeUnicodeLinux(hexcode: str):
