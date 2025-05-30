@@ -1,9 +1,9 @@
 {
-  "name": "uinput",
+  "name": "com.example.uinput",
   "description": "Press keys on a virtual keyboard using stdio",
   "path": "path/to/your/domos/app/uinput.py",
   "type": "stdio",
-  "allowed_extensions": [
-    "domos@example.org"
+  "allowed_origins": [
+    "chrome-extension://gghigchcodnmbcapbhcbpekogkflcokf/"
   ]
 }

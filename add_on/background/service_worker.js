@@ -1,7 +1,7 @@
 /*
 On startup, connect to the "uinput" app.
 */
-let port = browser.runtime.connectNative("uinput");
+let port = chrome.runtime.connectNative("com.example.uinput");
 
 /*
 Listen for messages from the app and log them to the console.
@@ -25,28 +25,7 @@ port.onDisconnect.addListener((port) => {
     }
 });
 
-function getUnicodeCodes(char) {
-    const codePoint = char.codePointAt(0);
-
-    // Linux uses hex (Ctrl+Shift+u + HEX)
-    const linuxHex = codePoint.toString(16);
-
-    // Windows uses decimal (Alt + DECIMAL), but only works for <= 255 or 0xFFFF in some cases
-    const windowsDecimal = codePoint.toString(10);
-
-    console.log(`Character: ${char}`);
-    console.log(`Unicode Code Point: U+${codePoint.toString(16).toUpperCase()}`);
-    console.log(`Linux Input (Ctrl+Shift+u): ${linuxHex}`);
-    console.log(`Windows Input (Alt+Numpad): ${windowsDecimal}`);
-}
-
-// getUnicodeCodes("©");     // Alt+0169
-// getUnicodeCodes("❤");     // Not supported in Windows Alt+Numpad
-// getUnicodeCodes("€");     // Alt+0128
-// getUnicodeCodes("あ");     // Not supported in Windows Alt+Numpad
-// getUnicodeCodes("😀");    // Not supported in Windows Alt+Numpad
-
-browser.runtime.onMessage.addListener((message) => {
+chrome.runtime.onMessage.addListener((message) => {
     if (message.command === "key") {
         const key = message.key;
         port.postMessage('key.' + key);

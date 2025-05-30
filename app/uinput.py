@@ -24,7 +24,7 @@ def tapBackspace(count):
         keyboard.release(Key.backspace)
 
 
-def typeContent(text: str):
+def typeText(text: str):
     printable_keys = set(
         "abcdefghijklmnopqrstuvwxyz"
         "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -38,7 +38,7 @@ def typeContent(text: str):
         else:
             hexcode = f'{ord(char):X}'
             # sendEncodedMessage(hexcode)
-            type_unicode_linux(hexcode)
+            typeUnicodeLinux(hexcode)
 
 
 
@@ -55,7 +55,7 @@ def typeUnicode(text):
     sleep(0.1)
 
 
-def type_unicode_linux(hexcode: str):
+def typeUnicodeLinux(hexcode: str):
     """
     Types a unicode character using Ctrl+Shift+u + hex code + Enter (Linux)
     """
@@ -126,21 +126,24 @@ def sendEncodedMessage(messageContent):
 def listenForMessages():
     while True:
         receivedMessage = getMessage()
-        if receivedMessage.startswith('tap.'):
+        if receivedMessage.startswith('key.'):
             key = receivedMessage[4:]
-            sendEncodedMessage('pressing: ' + key)
+            sendEncodedMessage('Pressing: ' + key)
             tapKey(key)
         elif receivedMessage.startswith('backspace.'):
             count = receivedMessage[10:]
-            sendEncodedMessage('Tapping backspace ' + count + ' times')
+            sendEncodedMessage('Tapping backspace * ' + count)
             tapBackspace(int(count))
-        elif receivedMessage.startswith('content.'):
-            text = receivedMessage[8:]
-            typeContent(text)
+        elif receivedMessage.startswith('text.'):
+            text = receivedMessage[5:]
+            sendEncodedMessage('Typing: ' + text)
+            typeText(text)
         elif receivedMessage.startswith('unicode.'):
-            key = receivedMessage[8:]
-            sendEncodedMessage('Unicode: ' + key)
-            type_unicode_linux(key)
+            char = receivedMessage[8:]
+            sendEncodedMessage('Unicode: ' + char)
+            typeUnicodeLinux(char)
+        else:
+            sendEncodedMessage('Invalid message to app: ' + receivedMessage)
 
 
 listenForMessages()

@@ -76,8 +76,8 @@
             count: backspaceCount,
         }).then(
             browser.runtime.sendMessage({
-                command: "typeContent",
-                content: rhs,
+                command: "text",
+                text: rhs,
             })
         ).then(() => { inputBuffer = '' })
     }
